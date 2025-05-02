@@ -1,5 +1,7 @@
 import pygame
 
+pygame.init()
+
 white = (255, 255, 255)
 red = (255, 0, 0)
 black = (0, 0, 0)
@@ -21,10 +23,10 @@ pygame.display.set_caption("Asteroids")
 timer = pygame.time.Clock()
 
 # Import sound effects
-snd_fire = pygame.mixer.Sound("Sounds/fire.wav")
-snd_bangL = pygame.mixer.Sound("Sounds/bangLarge.wav")
-snd_bangM = pygame.mixer.Sound("Sounds/bangMedium.wav")
-snd_bangS = pygame.mixer.Sound("Sounds/bangSmall.wav")
-snd_extra = pygame.mixer.Sound("Sounds/extra.wav")
-snd_saucerB = pygame.mixer.Sound("Sounds/saucerBig.wav")
-snd_saucerS = pygame.mixer.Sound("Sounds/saucerSmall.wav")
+snd_fire = pygame.mixer.Sound("sfx/fire.wav")
+snd_bangL = pygame.mixer.Sound("sfx/bangLarge.wav")
+snd_bangM = pygame.mixer.Sound("sfx/bangMedium.wav")
+snd_bangS = pygame.mixer.Sound("sfx/bangSmall.wav")
+snd_extra = pygame.mixer.Sound("sfx/extra.wav")
+snd_saucerB = pygame.mixer.Sound("sfx/saucerBig.wav")
+snd_saucerS = pygame.mixer.Sound("sfx/saucerSmall.wav")
