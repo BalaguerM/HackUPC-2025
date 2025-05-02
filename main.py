@@ -6,7 +6,7 @@ import time
 # (Temp) Global variables
 FONT = 'arial'
 WINDOW_HEIGHT = 1280
-WINDOW_WIDTH = 800
+WINDOW_WIDTH = 768
 running = True
 
 # Buttons
@@ -78,11 +78,7 @@ while running:
             mouse_x, mouse_y = pygame.mouse.get_pos()
             
             # Check for play button in the inicial page phase
-            if (
-                (current_phase == "Inicial page")
-                (play_button_x <= mouse_x <= play_button_x + rect_width)
-                (play_button_y <= mouse_y <= play_button_y + rect_height)
-            ):
+            if current_phase == "Inicial page" and play_button_x <= mouse_x <= play_button_x + rect_width and play_button_y <= mouse_y <= play_button_y + rect_height:
             # Go into game selector phase 
                 current_phase = phases[1]
             
