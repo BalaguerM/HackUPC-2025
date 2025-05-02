@@ -1,6 +1,7 @@
 import pygame
 import math
-import random
+from settings import display_width, display_height, gameDisplay, white
+from settings import player_size, player_max_speed, fd_fric, bd_fric
 
 class Player:
     def __init__(self, x, y):

@@ -1,3 +1,7 @@
+import pygame
+import math
+from settings import *
+
 class Bullet:
     def __init__(self, x, y, direction):
         self.x = x

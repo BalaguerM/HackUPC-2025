@@ -1,5 +1,7 @@
 import random
 import math
+import pygame
+from settings import display_width, display_height, gameDisplay, white
 
 class Asteroid:
     def __init__(self, x, y, t):

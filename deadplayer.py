@@ -1,3 +1,8 @@
+import random
+import math
+import pygame
+from settings import gameDisplay, white
+
 class deadPlayer:
     def __init__(self, x, y, l):
         self.angle = random.randrange(0, 360) * math.pi / 180

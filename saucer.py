@@ -1,3 +1,10 @@
+import math
+import random
+import pygame
+from bullet import Bullet
+from settings import display_width, display_height, saucer_speed, white
+from settings import gameDisplay, snd_saucerB, snd_saucerS
+
 class Saucer:
     def __init__(self):
         self.x = 0
