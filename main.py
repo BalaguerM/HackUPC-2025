@@ -131,7 +131,6 @@ class TextBox:
         # Blit the rect.
         pygame.draw.rect(screen, self.color, self.rect, 2)
     
-
 pygame.init()
 screen = pygame.display.set_mode((1280, 720))
 clock = pygame.time.Clock()
