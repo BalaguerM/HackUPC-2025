@@ -1,3 +1,4 @@
+import os
 import pygame 
 import math
 import random
@@ -10,10 +11,10 @@ from player import deadPlayer
 
 
 # (Temp) Global variables
-FONT = 'arial'
-FONT_SIZE = 12
 WINDOW_HEIGHT = 1280
 WINDOW_WIDTH = 768
+FONT = pygame.font.SysFont("arial", 30)
+
 WINDOW_BACKGROUND_COLOR = pygame.Color('black')
 
 # Colors 
@@ -21,7 +22,7 @@ COLOR_INACTIVE = pygame.Color('lightskyblue3')
 COLOR_ACTIVE = pygame.Color('dodgerblue2')
 
 running = True
-
+ip_address = ""
 # Buttons
 # The first screen the user sees has a play button and a quit button.
 # If the user presses play, it brings him to the second screen which has a singleplayer button and 
@@ -64,6 +65,12 @@ multiplayer_button_y = rect_width + 10
 multiplayer_button_color = "white"
 multiplayer_button_foreground = "black"
 
+# 2 Players same PC
+same_pc_button_x = center
+same_pc_button_y = rect_width + 120
+same_pc_button_color = "white"
+same_pc_button_foreground = "black"
+
 # IP TextBox
 ip_textbox_x = center
 ip_textbox_y = 400
@@ -72,7 +79,7 @@ ip_textbox_foreground = "black"
 
 # Load font 
 pygame.font.init()
-font = pygame.font.SysFont(FONT, 30, bold=True)
+
 
 # Start menu. 
 class Button:
@@ -83,7 +90,7 @@ class Button:
         
         # Text
         self.text = text
-        self.text_surf = font.render(text, True, foreground)
+        self.text_surf = FONT.render(text, True, foreground)
         self.text_rect = self.text_surf.get_rect(center = self.top_rect.center)
 
     def draw(self, surface):
@@ -100,24 +107,28 @@ class TextBox:
 
     def handle_event(self, event):
         if event.type == pygame.MOUSEBUTTONDOWN:
-            # If the user clicked on the input_box rect.
+            # If the user clicks inside the text box, activate it
             if self.rect.collidepoint(event.pos):
-                # Toggle the active variable.
-                self.active = not self.active
+                self.active = True
             else:
-                self.active = False
-            # Change the current color of the input box.
+                self.active = False  # Deactivate if clicked outside
+            # Change color based on active state
             self.color = COLOR_ACTIVE if self.active else COLOR_INACTIVE
+
         if event.type == pygame.KEYDOWN:
-            if self.active:
+            if self.active:  # Only process keys if the box is active
                 if event.key == pygame.K_RETURN:
-                    print(self.text)
-                    self.text = ''
+                    #print(self.text)  # Submit text on Enter
+                    ip_address = self.text
+                    print("Player entered ip address")
+                    print("Connecting to server")
+                    gameState = "Connect To Server"
+                    
                 elif event.key == pygame.K_BACKSPACE:
-                    self.text = self.text[:-1]
+                    self.text = self.text[:-1]  # Remove last character
                 else:
-                    self.text += event.unicode
-                # Re-render the text.
+                    self.text += event.unicode  # Add typed character
+                # Re-render the text
                 self.txt_surface = FONT.render(self.text, True, self.color)
 
     def update(self):
@@ -130,9 +141,14 @@ class TextBox:
         screen.blit(self.txt_surface, (self.rect.x+5, self.rect.y+5))
         # Blit the rect.
         pygame.draw.rect(screen, self.color, self.rect, 2)
-    
+
+
+# Set window position before initialization
+os.environ['SDL_VIDEO_CENTERED'] = '1'  # This centers the window
+
+# Initializing pygame and setting the screen
 pygame.init()
-screen = pygame.display.set_mode((1280, 720))
+screen = pygame.display.set_mode((WINDOW_HEIGHT, WINDOW_WIDTH))
 clock = pygame.time.Clock()
 
 # < -------- SINGLEPLAYER GAME -------- >
@@ -508,6 +524,10 @@ def SinglePlayerGameLoop(startingState):
         # Tick fps
         timer.tick(30)
 
+# < -------- 2 PLAYERS SAME PC -------- >
+def TwoPlayersSamePC():
+    pass
+
 
 
 # There is a phase counter that changes depending.  
@@ -518,88 +538,84 @@ def SinglePlayerGameLoop(startingState):
 # 3: Multiplayer 
 # 4: Single Player
 # 5: Introduce ip 
+
 """
 gameState = "Inicial Page"
 
+# Initialize text box before the main loop
+text_box = None
+
 while running:
-    # poll for events
-    # pygame.QUIT event means the user clicked X to close your window
+    # Event handling
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
-
-    # < -------- START MENU SCREEN -------- >
-        # If the user clicks the mouse, check if it clicked on any of the buttons 
-        # and activate the phase requested. 
-        elif event.type == pygame.MOUSEBUTTONDOWN :
+        
+        # Handle mouse clicks for all states
+        elif event.type == pygame.MOUSEBUTTONDOWN:
             mouse_x, mouse_y = pygame.mouse.get_pos()
             
-            if (gameState == "Inicial Page"):
-                # Check for play button in the inicial page phase
-                if (
-                play_button_x <= mouse_x <= play_button_x + rect_width and 
-                play_button_y <= mouse_y <= play_button_y + rect_height
-                ):
+            if gameState == "Inicial Page":
+                if (play_button_x <= mouse_x <= play_button_x + rect_width and 
+                    play_button_y <= mouse_y <= play_button_y + rect_height):
                     gameState = "Game Selector"
-
-                # Check for quit button
-                elif ( 
-                quit_button_x <= mouse_x <= quit_button_x + rect_width and 
-                quit_button_y <= mouse_y <= quit_button_y + rect_height
-                ):
+                elif (quit_button_x <= mouse_x <= quit_button_x + rect_width and 
+                      quit_button_y <= mouse_y <= quit_button_y + rect_height):
                     running = False
-
-            elif (gameState == "Game Selector"):
-                # Check for multiplayer button
-                if (
-                multiplayer_button_x <= mouse_x <= multiplayer_button_x + rect_width and 
-                multiplayer_button_y <= mouse_y <= multiplayer_button_y + rect_height
-                ):
+            
+            elif gameState == "Game Selector":
+                if (multiplayer_button_x <= mouse_x <= multiplayer_button_x + rect_width and 
+                    multiplayer_button_y <= mouse_y <= multiplayer_button_y + rect_height):
                     gameState = "Multiplayer"
-
-            # Check for singleplayer button
-                elif (
-                singleplayer_button_x <= mouse_x <= singleplayer_button_x + rect_width and 
-                singleplayer_button_y <= mouse_y <= singleplayer_button_y + rect_height
-                ):
+                    text_box = TextBox(ip_textbox_x, ip_textbox_y, rect_width, rect_height)  # Create here
+                elif (singleplayer_button_x <= mouse_x <= singleplayer_button_x + rect_width and 
+                      singleplayer_button_y <= mouse_y <= singleplayer_button_y + rect_height):
                     gameState = "Single Player"
+                elif (same_pc_button_x <= mouse_x <= same_pc_button_x + rect_width and
+                      same_pc_button_y <= mouse_y <= same_pc_button_y + rect_height):
+                    gameState = "Same PC"
         
-
-
-
-
-    # fill the screen with a color to wipe away anything from last frame
+        # Handle keyboard events for text box
+        if gameState == "Multiplayer" and text_box is not None:
+            text_box.handle_event(event)  # This is where we pass key events
+    
+    # Rendering
     screen.fill(WINDOW_BACKGROUND_COLOR)
     
-    # If statement block to represent each phase
-    # Show [PLAY] and [QUIT] 
     if gameState == "Inicial Page": 
-        # play_button = Button("PLAY", (rect_width, rect_height), play_button_x, play_button_y, play_button_color, play_button_foreground)
         play_button = Button("PLAY", play_button_x, play_button_y, play_button_color, play_button_foreground)
         quit_button = Button("QUIT", quit_button_x, quit_button_y, quit_button_color, quit_button_foreground)
-        # Draw the buttons on the screen
         play_button.draw(screen)
         quit_button.draw(screen)
 
     elif gameState == "Game Selector":
         single_player_button = Button("SINGLEPLAYER", singleplayer_button_x, singleplayer_button_y, single_player_button_color, single_player_button_foreground)
         multiplayer_button = Button("MULTIPLAYER", multiplayer_button_x, multiplayer_button_y, multiplayer_button_color, multiplayer_button_foreground)
-        # Draw the buttons on the screen 
-        print("I got to game selector")
+        same_pc_button = Button("2 PLAYERS SAME PC", same_pc_button_x, same_pc_button_y, same_pc_button_color, same_pc_button_foreground)
         single_player_button.draw(screen)
         multiplayer_button.draw(screen)
+        same_pc_button.draw(screen)
     
-    # Go into singleplayer mode
     elif gameState == "Single Player":
         SinglePlayerGameLoop(gameState)
-        print("Starting singleplayer game")
-
-
-    # Spawn a TextBox asking the player for an IP address to join a multiplayer session 
+    
     elif gameState == "Multiplayer":
-        TextBox1 = TextBox(ip_textbox_x, ip_textbox_y, rect_width, rect_height)
-        TextBox1.draw(screen)
+        if text_box is not None:
+            text_box.update()
+            text_box.draw(screen)
+    
+    elif gameState == "Same PC":
+        pass
+    
+    elif gameState == "Connect To Server":
+        screen.fill("#FFFFFF")
+        pass
 
+
+    pygame.display.flip()
+    clock.tick(60)
+    
+    
     # flip() the display to put your work on screen
     pygame.display.flip()
     
