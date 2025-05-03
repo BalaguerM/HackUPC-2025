@@ -79,16 +79,16 @@ while running:
     screen.fill(WINDOW_BACKGROUND_COLOR)
     
     if gameState == "Inicial Page": 
-        play_button = Button("PLAY", play_button_x, play_button_y, play_button_color, play_button_foreground)
-        quit_button = Button("QUIT", quit_button_x, quit_button_y, quit_button_color, quit_button_foreground)
+        play_button = Button("PLAY", play_button_x, play_button_y, play_button_color, play_button_foreground, screen)
+        quit_button = Button("QUIT", quit_button_x, quit_button_y, quit_button_color, quit_button_foreground, screen)
         play_button.draw(screen)
         quit_button.draw(screen)
         banner.draw(screen)
 
     elif gameState == "Game Selector":
-        single_player_button = Button("SINGLEPLAYER", singleplayer_button_x, singleplayer_button_y, single_player_button_color, single_player_button_foreground)
-        multiplayer_button = Button("MULTIPLAYER", multiplayer_button_x, multiplayer_button_y, multiplayer_button_color, multiplayer_button_foreground)
-        same_pc_button = Button("2 PLAYERS SAME PC", same_pc_button_x, same_pc_button_y, same_pc_button_color, same_pc_button_foreground)
+        single_player_button = Button("SINGLEPLAYER", singleplayer_button_x, singleplayer_button_y, single_player_button_color, single_player_button_foreground, screen)
+        multiplayer_button = Button("MULTIPLAYER", multiplayer_button_x, multiplayer_button_y, multiplayer_button_color, multiplayer_button_foreground, screen)
+        same_pc_button = Button("2 PLAYERS SAME PC", same_pc_button_x, same_pc_button_y, same_pc_button_color, same_pc_button_foreground, screen)
         single_player_button.draw(screen)
         multiplayer_button.draw(screen)
         same_pc_button.draw(screen)

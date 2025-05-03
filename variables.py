@@ -25,8 +25,8 @@ center = WINDOW_WIDTH / 2
 
 
 
-banner_x = center
-banner_y = rect_width + 10
+banner_x = center + 250
+banner_y = 200
 banner_image_load = "assets/asteroids.svg"
 banner_pos = (banner_x, banner_y)
 
@@ -67,7 +67,7 @@ ip_textbox_color = "white"
 ip_textbox_foreground = "black"
 
 class Button:
-    def __init__(self, text, x, y, color, foreground):
+    def __init__(self, text, x, y, color, foreground, screen):
         # Top rectangle
         self.top_rect = pygame.Rect((x, y), (rect_width, rect_height))
         self.top_color = color
@@ -76,9 +76,10 @@ class Button:
         self.text = text
         self.text_surf = FONT.render(text, True, foreground)
         self.text_rect = self.text_surf.get_rect(center = self.top_rect.center)
+        self.screen = screen
 
     def draw(self, surface):
-        pygame.draw.rect(screen, self.top_color, self.top_rect)
+        pygame.draw.rect(self.screen, self.top_color, self.top_rect)
         surface.blit(self.text_surf, self.text_rect)
 
 class Banner:
