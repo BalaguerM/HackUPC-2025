@@ -8,10 +8,6 @@ from saucer import Saucer
 from asteroid import Asteroid
 from player import deadPlayer
 
-# Ship colors
-SHIP_1_RED = "#ff0000"
-SHIP_2_BLUE = "#0000ff"
-
 def drawText(msg, color, x, y, s, center=True):
     screen_text = pygame.font.SysFont("Calibri", s).render(msg, True, color)
     if center:
@@ -21,15 +17,13 @@ def drawText(msg, color, x, y, s, center=True):
         rect = (x, y)
     gameDisplay.blit(screen_text, rect)
 
-
-# Create funtion to chek for collision
 def isColliding(x, y, xTo, yTo, size):
     if x > xTo - size and x < xTo + size and y > yTo - size and y < yTo + size:
         return True
     return False
 
 def SamePc(startingState):
-   # Init variables
+    # Init variables
     gameState = startingState
     player_red_state = "Alive"
     player_blue_state = "Alive"
@@ -41,6 +35,9 @@ def SamePc(startingState):
     player_blue_dying_delay = 0
     player_red_invi_dur = 0
     player_blue_invi_dur = 0
+    player_red_lives = 3
+    player_blue_lives = 3
+
     hyperspace = 0
     next_level_delay = 0
     bullet_capacity = 4
@@ -48,12 +45,11 @@ def SamePc(startingState):
     asteroids = []
     stage = 3
     score = 0
-    live = 2
     oneUp_multiplier = 1
     playOneUpSFX = 0
     intensity = 0
-    player_red = Player(display_width / 3, display_height / 2, SHIP_1_RED)
-    player_blue = Player(display_width * 2/3, display_height / 2, SHIP_2_BLUE)
+    player_red = Player(display_width / 3, display_height / 2, red)
+    player_blue = Player(display_width * 2/3, display_height / 2, blue)
     saucer = Saucer()
 
     # Main loop
@@ -151,8 +147,8 @@ def SamePc(startingState):
                     player_red_invi_dur = 120
                     player_red.killPlayer()
 
-                    if live != 0:
-                        live -= 1
+                    if player_red_lives != 0:
+                        player_red_lives -= 1
                     else:
                         gameState = "Game Over"
 
@@ -183,8 +179,8 @@ def SamePc(startingState):
                     player_blue_invi_dur = 120
                     player_blue.killPlayer()
 
-                    if live != 0:
-                        live -= 1
+                    if player_blue_lives != 0:
+                        player_blue_lives -= 1
                     else:
                         gameState = "Game Over"
 
@@ -290,8 +286,8 @@ def SamePc(startingState):
                     player_red_invi_dur = 120
                     player_red.killPlayer()
 
-                    if live != 0:
-                        live -= 1
+                    if player_red_lives != 0:
+                        player_red_lives -= 1
                     else:
                         gameState = "Game Over"
 
@@ -308,8 +304,8 @@ def SamePc(startingState):
                     player_blue_invi_dur = 120
                     player_blue.killPlayer()
 
-                    if live != 0:
-                        live -= 1
+                    if player_blue_lives != 0:
+                        player_blue_lives -= 1
                     else:
                         gameState = "Game Over"
 
@@ -349,8 +345,8 @@ def SamePc(startingState):
                         player_red_invi_dur = 120
                         player_red.killPlayer()
 
-                        if live != 0:
-                            live -= 1
+                        if player_red_lives != 0:
+                            player_red_lives -= 1
                         else:
                             gameState = "Game Over"
 
@@ -368,8 +364,8 @@ def SamePc(startingState):
                         player_blue_invi_dur = 120
                         player_blue.killPlayer()
 
-                        if live != 0:
-                            live -= 1
+                        if player_blue_lives != 0:
+                            player_blue_lives -= 1
                         else:
                             gameState = "Game Over"
 
@@ -413,11 +409,13 @@ def SamePc(startingState):
                 except ValueError:
                     continue
 
-        # Extra live
+        # Extra lives
         if score > oneUp_multiplier * 10000:
             oneUp_multiplier += 1
-            live += 1
+            player_red_lives += 1
+            player_blue_lives += 1
             playOneUpSFX = 60
+        
         # Play sfx
         if playOneUpSFX > 0:
             playOneUpSFX -= 1
@@ -457,15 +455,15 @@ def SamePc(startingState):
         else:
             drawText("Game Over", white, display_width / 2, display_height / 2, 100)
             drawText("Press \"R\" to restart!", white, display_width / 2, display_height / 2 + 100, 50)
-            live = -1
 
         # Draw score
         drawText(str(score), white, 60, 20, 40, False)
 
-        # Draw Lives
-        for l in range(live + 1):
-            Player(75 + l * 25, 75, SHIP_1_RED).drawPlayer()
-            Player(display_width - 75 - l * 25, 75, SHIP_2_BLUE).drawPlayer()
+        # Draw Lives - Red player on left, Blue player on right
+        for l in range(player_red_lives):
+            Player(75 + l * 25, 75, red).drawPlayer()
+        for l in range(player_blue_lives):
+            Player(display_width - 75 - l * 25, 75, blue).drawPlayer()
 
         # Update screen
         pygame.display.update()
@@ -473,4 +471,3 @@ def SamePc(startingState):
         # Tick fps
         timer.tick(30)
                     
-SamePc("Playing")

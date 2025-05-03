@@ -24,7 +24,6 @@ rect_height = 100
 center = WINDOW_WIDTH / 2 
 
 
-
 banner_x = center + 250
 banner_y = 200
 banner_image_load = "assets/asteroids.svg"

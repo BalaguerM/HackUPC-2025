@@ -5,7 +5,7 @@ from settings import display_width, display_height, gameDisplay, white
 from settings import player_size, player_max_speed, fd_fric, bd_fric
 
 class Player:
-    def __init__(self, x, y):
+    def __init__(self, x, y, color):
         self.x = x
         self.y = y
         self.hspeed = 0
@@ -13,6 +13,7 @@ class Player:
         self.dir = -90
         self.rtspd = 0
         self.thrust = False
+        self.color = color
 
     def updatePlayer(self):
         # Move player
@@ -64,28 +65,28 @@ class Player:
         s = player_size
         t = self.thrust
         # Draw player
-        pygame.draw.line(gameDisplay, white,
+        pygame.draw.line(gameDisplay, self.color,
                          (x - (s * math.sqrt(130) / 12) * math.cos(math.atan(7 / 9) + a),
                           y - (s * math.sqrt(130) / 12) * math.sin(math.atan(7 / 9) + a)),
                          (x + s * math.cos(a), y + s * math.sin(a)))
 
-        pygame.draw.line(gameDisplay, white,
+        pygame.draw.line(gameDisplay, self.color,
                          (x - (s * math.sqrt(130) / 12) * math.cos(math.atan(7 / 9) - a),
                           y + (s * math.sqrt(130) / 12) * math.sin(math.atan(7 / 9) - a)),
                          (x + s * math.cos(a), y + s * math.sin(a)))
 
-        pygame.draw.line(gameDisplay, white,
+        pygame.draw.line(gameDisplay, self.color,
                          (x - (s * math.sqrt(2) / 2) * math.cos(a + math.pi / 4),
                           y - (s * math.sqrt(2) / 2) * math.sin(a + math.pi / 4)),
                          (x - (s * math.sqrt(2) / 2) * math.cos(-a + math.pi / 4),
                           y + (s * math.sqrt(2) / 2) * math.sin(-a + math.pi / 4)))
         if t:
-            pygame.draw.line(gameDisplay, white,
+            pygame.draw.line(gameDisplay, self.color,
                              (x - s * math.cos(a),
                               y - s * math.sin(a)),
                              (x - (s * math.sqrt(5) / 4) * math.cos(a + math.pi / 6),
                               y - (s * math.sqrt(5) / 4) * math.sin(a + math.pi / 6)))
-            pygame.draw.line(gameDisplay, white,
+            pygame.draw.line(gameDisplay, self.color,
                              (x - s * math.cos(-a),
                               y + s * math.sin(-a)),
                              (x - (s * math.sqrt(5) / 4) * math.cos(-a + math.pi / 6),

@@ -2,7 +2,9 @@ import os
 import pygame 
 from settings import *
 from variables import *
+
 import single_player
+import same_pc
 
 WINDOW_HEIGHT = 1280
 WINDOW_WIDTH = 768
@@ -102,7 +104,13 @@ while running:
             text_box.draw(screen)
     
     elif gameState == "Same PC":
-        pass
+        # Store the current display surface
+        prev_display = pygame.display.get_surface()
+
+        # Restore the previous display
+        pygame.display.set_mode((WINDOW_HEIGHT, WINDOW_WIDTH))
+        screen = pygame.display.get_surface()
+        same_pc.SamePc("Playing")
     
     elif gameState == "Connect To Server":
         screen.fill("#FFFFFF")
