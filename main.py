@@ -1,13 +1,6 @@
 import os
 import pygame 
-import math
-import random
 from settings import *
-from player import Player
-from bullet import Bullet
-from saucer import Saucer
-from asteroid import Asteroid
-from player import deadPlayer
 from variables import *
 import single_player
 

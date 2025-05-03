@@ -54,4 +54,3 @@ class Asteroid:
                                                   self.y + this_v[0] * math.sin(this_v[1] * math.pi / 180)),
                              (self.x + next_v[0] * math.cos(next_v[1] * math.pi / 180),
                               self.y + next_v[0] * math.sin(next_v[1] * math.pi / 180)))
-
