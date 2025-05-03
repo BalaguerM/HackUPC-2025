@@ -1,5 +1,5 @@
-# Import modules
-import pygame
+import os
+import pygame 
 import math
 import random
 from settings import *
@@ -9,9 +9,6 @@ from saucer import Saucer
 from asteroid import Asteroid
 from player import deadPlayer
 
-pygame.init()
-
-# Create function to draw texts
 def drawText(msg, color, x, y, s, center=True):
     screen_text = pygame.font.SysFont("Calibri", s).render(msg, True, color)
     if center:
@@ -28,7 +25,7 @@ def isColliding(x, y, xTo, yTo, size):
         return True
     return False
 
-def gameLoop(startingState):
+def SinglePlayerGameLoop(startingState):
     # Init variables
     gameState = startingState
     player_state = "Alive"
@@ -47,28 +44,16 @@ def gameLoop(startingState):
     oneUp_multiplier = 1
     playOneUpSFX = 0
     intensity = 0
-    player = Player(display_width / 2, display_height / 2)
+    player = Player(display_width / 2, display_height / 2, white)
     saucer = Saucer()
 
     # Main loop
     while gameState != "Exit":
-        # Game menu
-        while gameState == "Menu":
-            gameDisplay.fill(black)
-            drawText("ASTEROIDS", white, display_width / 2, display_height / 2, 100)
-            drawText("Press any key to START", white, display_width / 2, display_height / 2 + 100, 50)
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    gameState = "Exit"
-                if event.type == pygame.KEYDOWN:
-                    gameState = "Playing"
-            pygame.display.update()
-            timer.tick(5)
-
         # User inputs
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                gameState = "Exit"
+                quit()
+            
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_UP:
                     player.thrust = True
@@ -83,7 +68,7 @@ def gameLoop(startingState):
                 if gameState == "Game Over":
                     if event.key == pygame.K_r:
                         gameState = "Exit"
-                        gameLoop("Playing")
+                        SinglePlayerGameLoop("Playing")
                 if event.key == pygame.K_LSHIFT:
                     hyperspace = 30
             if event.type == pygame.KEYUP:
@@ -121,7 +106,7 @@ def gameLoop(startingState):
                     player_pieces.append(deadPlayer(player.x, player.y, 5 * player_size / (2 * math.cos(math.atan(1 / 3)))))
                     player_pieces.append(deadPlayer(player.x, player.y, 5 * player_size / (2 * math.cos(math.atan(1 / 3)))))
                     player_pieces.append(deadPlayer(player.x, player.y, player_size))
-
+                    
                     # Kill player
                     player_state = "Died"
                     player_dying_delay = 30
@@ -397,9 +382,5 @@ def gameLoop(startingState):
         timer.tick(30)
 
 
-# Start game
-gameLoop("Menu")
 
-# End game
-pygame.quit()
-quit()
+    
