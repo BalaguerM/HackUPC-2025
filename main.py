@@ -9,7 +9,6 @@ from saucer import Saucer
 from asteroid import Asteroid
 from player import deadPlayer
 
-
 # (Temp) Global variables
 WINDOW_HEIGHT = 1280
 WINDOW_WIDTH = 768
@@ -39,7 +38,8 @@ center = WINDOW_WIDTH / 2
 # Banner will be an imported image 
 banner_x = center
 banner_y = rect_width + 10
-banner_image_path = ""
+banner_image_load = "assets/asteroids.svg"
+banner_pos = (banner_x, banner_y)
 
 # Play button
 play_button_x = center
@@ -87,7 +87,7 @@ class Button:
         # Top rectangle
         self.top_rect = pygame.Rect((x, y), (rect_width, rect_height))
         self.top_color = color
-        
+
         # Text
         self.text = text
         self.text_surf = FONT.render(text, True, foreground)
@@ -96,6 +96,15 @@ class Button:
     def draw(self, surface):
         pygame.draw.rect(screen, self.top_color, self.top_rect)
         surface.blit(self.text_surf, self.text_rect)
+
+class Banner:
+    def __init__(self, banner_image_load):
+        self.image = pygame.image.load(banner_image_load).convert_alpha()
+        self.rect = self.image.get_rect(center=(banner_x, banner_y))
+
+    def draw(self, surface):
+        pygame.draw.rect(surface, (0, 0, 0), self.rect)  # Draw a black rectangle behind the image
+        surface.blit(self.image, self.rect.topleft)
 
 class TextBox:
     def __init__(self, x, y, width, height, text=''):
@@ -142,9 +151,8 @@ class TextBox:
         # Blit the rect.
         pygame.draw.rect(screen, self.color, self.rect, 2)
 
-
 # Set window position before initialization
-os.environ['SDL_VIDEO_CENTERED'] = '1'  # This centers the window
+os.environ['SDL_VIDEO_CENTERED'] = '0'  # This centers the window
 
 # Initializing pygame and setting the screen
 pygame.init()
@@ -545,6 +553,9 @@ gameState = "Inicial Page"
 # Initialize text box before the main loop
 text_box = None
 
+banner = Banner(banner_image_load)
+
+
 while running:
     # Event handling
     for event in pygame.event.get():
@@ -554,7 +565,8 @@ while running:
         # Handle mouse clicks for all states
         elif event.type == pygame.MOUSEBUTTONDOWN:
             mouse_x, mouse_y = pygame.mouse.get_pos()
-            
+
+
             if gameState == "Inicial Page":
                 if (play_button_x <= mouse_x <= play_button_x + rect_width and 
                     play_button_y <= mouse_y <= play_button_y + rect_height):
@@ -587,6 +599,7 @@ while running:
         quit_button = Button("QUIT", quit_button_x, quit_button_y, quit_button_color, quit_button_foreground)
         play_button.draw(screen)
         quit_button.draw(screen)
+        banner.draw(screen)
 
     elif gameState == "Game Selector":
         single_player_button = Button("SINGLEPLAYER", singleplayer_button_x, singleplayer_button_y, single_player_button_color, single_player_button_foreground)

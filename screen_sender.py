@@ -5,7 +5,7 @@ import struct
 import cv2
 import numpy as np
 
-HOST = 'localhost'  # Listen on all interfaces
+HOST = '0.0.0.0'  # Listen on all interfaces
 PORT = 9999
 
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
