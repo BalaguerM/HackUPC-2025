@@ -67,8 +67,13 @@ def SamePc(startingState):
                     player_red.rtspd = -player_max_rtspd
                 if event.key == pygame.K_RIGHT:
                     player_red.rtspd = player_max_rtspd
-                if event.key == pygame.K_SPACE and player_red_dying_delay == 0 and len(bullets) < bullet_capacity:
+                # E for red player and space for blue player
+                if event.key == pygame.K_e and player_red_dying_delay == 0 and len(bullets) < bullet_capacity:
                     bullets.append(Bullet(player_red.x, player_red.y, player_red.dir))
+                    pygame.mixer.Sound.play(snd_fire)
+                
+                if event.key == pygame.K_SPACE and player_blue_dying_delay == 0 and len(bullets) < bullet_capacity:
+                    bullets.append(Bullet(player_blue.x, player_blue.y, player_blue.dir))
                     pygame.mixer.Sound.play(snd_fire)
                 
                 # Player Blue controls
@@ -83,6 +88,7 @@ def SamePc(startingState):
                     pygame.mixer.Sound.play(snd_fire)
 
                 if gameState == "Game Over":
+
                     if event.key == pygame.K_r:
                         gameState = "Exit"
                         SamePc("Playing")
@@ -453,11 +459,17 @@ def SamePc(startingState):
             else:
                 player_blue.drawPlayer()
         else:
-            drawText("Game Over", white, WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2, 100)
+            # Compare life totals and the one with the most lives is the winner
+            if player_red_lives > player_blue_lives:
+                drawText("Red player wins!", red, WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2, 100)
+            else:
+                drawText("Blue player wins!", blue, WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2, 100)
+
+            #drawText("Game Over", white, WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2, 100)
             drawText("Press \"R\" to restart!", white, WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2 + 100, 50)
 
-        # Draw score
-        drawText(str(score), white, 60, 20, 40, False)
+        # Draw score. Could be written to show scores for both players next to their lives 
+        #drawText(str(score), white, 60, 20, 40, False)
 
         # Draw Lives - Red player on left, Blue player on right
         for l in range(player_red_lives):

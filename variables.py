@@ -78,15 +78,9 @@ singleplayer_button_y = 400
 single_player_button_color = "white"
 single_player_button_foreground = "black"
 
-# Multiplayer button 
-multiplayer_button_x = center
-multiplayer_button_y = rect_width + 10
-multiplayer_button_color = "white"
-multiplayer_button_foreground = "black"
-
 # 2 Players same PC
 same_pc_button_x = center
-same_pc_button_y = rect_width + 120
+same_pc_button_y = rect_width + 10
 same_pc_button_color = "white"
 same_pc_button_foreground = "black"
 

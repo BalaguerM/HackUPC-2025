@@ -12,6 +12,12 @@ COLOR_INACTIVE = pygame.Color('lightskyblue3')
 COLOR_ACTIVE = pygame.Color('dodgerblue2')
 running = True
 
+# Load the image (replace with your image file path)
+background = pygame.image.load("assets/bg2.png").convert()
+
+# Scale the image to fit the screen if needed
+background = pygame.transform.scale(background, (WINDOW_HEIGHT, WINDOW_WIDTH))
+
 # Load font 
 pygame.font.init()
 
@@ -23,19 +29,7 @@ pygame.init()
 screen = pygame.display.set_mode((WINDOW_HEIGHT, WINDOW_WIDTH))
 clock = pygame.time.Clock()
 
-# There is a phase counter that changes depending.  
-# The program evaluates what phase it is and changes accordingly 
-"""
-# 1: Inicial Page
-# 2: Game Selector
-# 3: Multiplayer 
-# 4: Single Player
-# 5: Introduce ip 
-"""
 gameState = "Inicial Page"
-
-# Initialize text box before the main loop
-text_box = None
 
 banner = Banner(banner_image_load)
 
@@ -62,21 +56,15 @@ while running:
                     running = False
 
             elif gameState == "Game Selector":
-                if button_clicked(multiplayer_button_x, multiplayer_button_y):
-                    gameState = "Multiplayer"
-                    text_box = TextBox(ip_textbox_x, ip_textbox_y, rect_width, rect_height)
-                elif button_clicked(singleplayer_button_x, singleplayer_button_y):
+                if button_clicked(singleplayer_button_x, singleplayer_button_y):
                     gameState = "Single Player"
                 elif button_clicked(same_pc_button_x, same_pc_button_y):
                     gameState = "Same PC"
         
-        # Handle keyboard events for text box
-        if gameState == "Multiplayer" and text_box is not None:
-            text_box.handle_event(event)  # This is where we pass key events
-    
     # Rendering
-    screen.fill(WINDOW_BACKGROUND_COLOR)
-    
+    #screen.fill(WINDOW_BACKGROUND_COLOR)
+    screen.blit(background, (0,0))
+
     if gameState == "Inicial Page": 
         play_button = Button("PLAY", play_button_x, play_button_y, play_button_color, play_button_foreground, screen)
         quit_button = Button("QUIT", quit_button_x, quit_button_y, quit_button_color, quit_button_foreground, screen)
@@ -86,19 +74,13 @@ while running:
 
     elif gameState == "Game Selector":
         single_player_button = Button("SINGLEPLAYER", singleplayer_button_x, singleplayer_button_y, single_player_button_color, single_player_button_foreground, screen)
-        multiplayer_button = Button("MULTIPLAYER", multiplayer_button_x, multiplayer_button_y, multiplayer_button_color, multiplayer_button_foreground, screen)
         same_pc_button = Button("2 PLAYERS SAME PC", same_pc_button_x, same_pc_button_y, same_pc_button_color, same_pc_button_foreground, screen)
         single_player_button.draw(screen)
-        multiplayer_button.draw(screen)
         same_pc_button.draw(screen)
-    
+        banner.draw(screen)
+
     elif gameState == "Single Player":
         single_player.SinglePlayerGameLoop(gameState)
-    
-    elif gameState == "Multiplayer":
-        if text_box is not None:
-            text_box.update()
-            text_box.draw(screen)
     
     elif gameState == "Same PC":
         same_pc.SamePc("Playing")
