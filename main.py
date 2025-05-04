@@ -33,7 +33,6 @@ clock = pygame.time.Clock()
 # 3: Multiplayer 
 # 4: Single Player
 # 5: Introduce ip 
-
 """
 gameState = "Inicial Page"
 
@@ -118,7 +117,6 @@ while running:
 
     pygame.display.flip()
     clock.tick(60)
-    
     
     # flip() the display to put your work on screen
     pygame.display.flip()

@@ -7,8 +7,8 @@ red = (255, 0, 0)
 black = (0, 0, 0)
 blue = (0, 0, 255)
 
-display_width = 800
-display_height = 600
+display_width = 1280
+display_height = 768
 
 player_size = 10
 fd_fric = 0.5
