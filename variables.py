@@ -19,6 +19,37 @@ WINDOW_BACKGROUND_COLOR = pygame.Color('black')
 COLOR_INACTIVE = pygame.Color('lightskyblue3')
 COLOR_ACTIVE = pygame.Color('dodgerblue2')
 
+white = (255, 255, 255)
+red = (255, 0, 0)
+black = (0, 0, 0)
+blue = (0, 0, 255)
+light_sky_blue = (36, 179, 227)
+dodger_blue = (15, 26, 184)
+
+# Imported from old settings.py
+player_size = 10
+fd_fric = 0.5
+bd_fric = 0.1
+player_max_speed = 20
+player_max_rtspd = 10
+bullet_speed = 15
+saucer_speed = 5
+small_saucer_accuracy = 10
+
+gameDisplay = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
+pygame.display.set_caption("Asteroids")
+timer = pygame.time.Clock()
+
+# Import sound effects
+snd_fire = pygame.mixer.Sound("assets/fire.wav")
+snd_bangL = pygame.mixer.Sound("assets/bangLarge.wav")
+snd_bangM = pygame.mixer.Sound("assets/bangMedium.wav")
+snd_bangS = pygame.mixer.Sound("assets/bangSmall.wav")
+snd_extra = pygame.mixer.Sound("assets/extra.wav")
+snd_saucerB = pygame.mixer.Sound("assets/saucerBig.wav")
+snd_saucerS = pygame.mixer.Sound("assets/saucerSmall.wav")
+
+
 rect_width = 500
 rect_height = 100
 center = WINDOW_WIDTH / 2 
@@ -113,7 +144,7 @@ class TextBox:
                 if event.key == pygame.K_RETURN:
                     #print(self.text)  # Submit text on Enter
                     ip_address = self.text
-                    print("Player entered ip address")
+                    print(f"Player entered ip address {ip_address}")
                     print("Connecting to server")
                     gameState = "Connect To Server"
                     

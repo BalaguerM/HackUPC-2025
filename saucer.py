@@ -2,7 +2,7 @@ import math
 import random
 import pygame
 from bullet import Bullet
-from settings import display_width, display_height, saucer_speed, white
+from settings import WINDOW_WIDTH, WINDOW_HEIGHT, saucer_speed, white
 from settings import gameDisplay, snd_saucerB, snd_saucerS
 
 class Saucer:
@@ -28,10 +28,10 @@ class Saucer:
 
         # Wrapping
         if self.y < 0:
-            self.y = display_height
-        elif self.y > display_height:
+            self.y = WINDOW_HEIGHT
+        elif self.y > WINDOW_HEIGHT:
             self.y = 0
-        if self.x < 0 or self.x > display_width:
+        if self.x < 0 or self.x > WINDOW_WIDTH:
             self.state = "Dead"
 
         # Shooting
@@ -55,8 +55,8 @@ class Saucer:
         self.state = "Alive"
 
         # Set random position
-        self.x = random.choice((0, display_width))
-        self.y = random.randint(0, display_height)
+        self.x = random.choice((0, WINDOW_WIDTH))
+        self.y = random.randint(0, WINDOW_HEIGHT)
 
         # Set random type
         if random.randint(0, 1) == 0:

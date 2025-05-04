@@ -1,7 +1,7 @@
 import random
 import math
 import pygame
-from settings import display_width, display_height, gameDisplay, white
+from settings import WINDOW_WIDTH, WINDOW_HEIGHT, gameDisplay, white
 
 class Asteroid:
     def __init__(self, x, y, t):
@@ -34,14 +34,14 @@ class Asteroid:
         self.y += self.speed * math.sin(self.dir)
 
         # Check for wrapping
-        if self.x > display_width:
+        if self.x > WINDOW_WIDTH:
             self.x = 0
         elif self.x < 0:
-            self.x = display_width
-        elif self.y > display_height:
+            self.x = WINDOW_WIDTH
+        elif self.y > WINDOW_HEIGHT:
             self.y = 0
         elif self.y < 0:
-            self.y = display_height
+            self.y = WINDOW_HEIGHT
 
         # Draw asteroid
         for v in range(len(self.vertices)):

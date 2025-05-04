@@ -7,8 +7,8 @@ red = (255, 0, 0)
 black = (0, 0, 0)
 blue = (0, 0, 255)
 
-display_width = 1280
-display_height = 768
+WINDOW_WIDTH = 1280
+WINDOW_HEIGHT = 768
 
 player_size = 10
 fd_fric = 0.5
@@ -19,7 +19,7 @@ bullet_speed = 15
 saucer_speed = 5
 small_saucer_accuracy = 10
 
-gameDisplay = pygame.display.set_mode((display_width, display_height))
+gameDisplay = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
 pygame.display.set_caption("Asteroids")
 timer = pygame.time.Clock()
 

@@ -1,7 +1,7 @@
 import pygame
 import math
 import random
-from settings import display_width, display_height, gameDisplay, white
+from settings import WINDOW_WIDTH, WINDOW_HEIGHT, gameDisplay, white
 from settings import player_size, player_max_speed, fd_fric, bd_fric
 
 class Player:
@@ -46,14 +46,14 @@ class Player:
         self.y += self.vspeed
 
         # Check for wrapping
-        if self.x > display_width:
+        if self.x > WINDOW_WIDTH:
             self.x = 0
         elif self.x < 0:
-            self.x = display_width
-        elif self.y > display_height:
+            self.x = WINDOW_WIDTH
+        elif self.y > WINDOW_HEIGHT:
             self.y = 0
         elif self.y < 0:
-            self.y = display_height
+            self.y = WINDOW_HEIGHT
 
         # Rotate player
         self.dir += self.rtspd
@@ -94,8 +94,8 @@ class Player:
 
     def killPlayer(self):
         # Reset the player
-        self.x = display_width / 2
-        self.y = display_height / 2
+        self.x = WINDOW_WIDTH / 2
+        self.y = WINDOW_HEIGHT / 2
         self.thrust = False
         self.dir = -90
         self.hspeed = 0

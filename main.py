@@ -6,8 +6,6 @@ from variables import *
 import single_player
 import same_pc
 
-WINDOW_HEIGHT = 1280
-WINDOW_WIDTH = 768
 FONT = pygame.font.SysFont("arial", 30)
 WINDOW_BACKGROUND_COLOR = pygame.Color('black')
 COLOR_INACTIVE = pygame.Color('lightskyblue3')
@@ -103,16 +101,10 @@ while running:
             text_box.draw(screen)
     
     elif gameState == "Same PC":
-        # Store the current display surface
-        prev_display = pygame.display.get_surface()
-
-        # Restore the previous display
-        pygame.display.set_mode((WINDOW_HEIGHT, WINDOW_WIDTH))
-        screen = pygame.display.get_surface()
         same_pc.SamePc("Playing")
     
     elif gameState == "Connect To Server":
-        screen.fill("#FFFFFF")
+        screen.fill(white)
         pass
 
     pygame.display.flip()

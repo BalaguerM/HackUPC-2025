@@ -44,7 +44,7 @@ def SinglePlayerGameLoop(startingState):
     oneUp_multiplier = 1
     playOneUpSFX = 0
     intensity = 0
-    player = Player(display_width / 2, display_height / 2, white)
+    player = Player(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2, white)
     saucer = Saucer()
 
     # Main loop
@@ -94,8 +94,8 @@ def SinglePlayerGameLoop(startingState):
             player_state = "Died"
             hyperspace -= 1
             if hyperspace == 1:
-                player.x = random.randrange(0, display_width)
-                player.y = random.randrange(0, display_height)
+                player.x = random.randrange(0, WINDOW_WIDTH)
+                player.y = random.randrange(0, WINDOW_HEIGHT)
 
         # Check for collision w/ asteroid
         for a in asteroids:
@@ -140,7 +140,7 @@ def SinglePlayerGameLoop(startingState):
         # Update ship fragments
         for f in player_pieces:
             f.updateDeadPlayer()
-            if f.x > display_width or f.x < 0 or f.y > display_height or f.y < 0:
+            if f.x > WINDOW_WIDTH or f.x < 0 or f.y > WINDOW_HEIGHT or f.y < 0:
                 player_pieces.remove(f)
 
         # Check for end of stage
@@ -152,11 +152,11 @@ def SinglePlayerGameLoop(startingState):
                 intensity = 0
                 # Spawn asteroid away of center
                 for i in range(stage):
-                    xTo = display_width / 2
-                    yTo = display_height / 2
-                    while xTo - display_width / 2 < display_width / 4 and yTo - display_height / 2 < display_height / 4:
-                        xTo = random.randrange(0, display_width)
-                        yTo = random.randrange(0, display_height)
+                    xTo = WINDOW_WIDTH / 2
+                    yTo = WINDOW_HEIGHT / 2
+                    while xTo - WINDOW_WIDTH / 2 < WINDOW_WIDTH / 4 and yTo - WINDOW_HEIGHT / 2 < WINDOW_HEIGHT / 4:
+                        xTo = random.randrange(0, WINDOW_WIDTH)
+                        yTo = random.randrange(0, WINDOW_HEIGHT)
                     asteroids.append(Asteroid(xTo, yTo, "Large"))
                 next_level_delay = 0
 
@@ -364,8 +364,8 @@ def SinglePlayerGameLoop(startingState):
             else:
                 player.drawPlayer()
         else:
-            drawText("Game Over", white, display_width / 2, display_height / 2, 100)
-            drawText("Press \"R\" to restart!", white, display_width / 2, display_height / 2 + 100, 50)
+            drawText("Game Over", white, WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2, 100)
+            drawText("Press \"R\" to restart!", white, WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2 + 100, 50)
             live = -1
 
         # Draw score
@@ -373,7 +373,7 @@ def SinglePlayerGameLoop(startingState):
 
         # Draw Lives
         for l in range(live + 1):
-            Player(75 + l * 25, 75).drawPlayer()
+            Player(75 + l * 25, 75, white).drawPlayer()
 
         # Update screen
         pygame.display.update()

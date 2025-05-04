@@ -18,12 +18,12 @@ class Bullet:
         pygame.draw.circle(gameDisplay, white, (int(self.x), int(self.y)), 3)
 
         # Wrapping
-        if self.x > display_width:
+        if self.x > WINDOW_WIDTH:
             self.x = 0
         elif self.x < 0:
-            self.x = display_width
-        elif self.y > display_height:
+            self.x = WINDOW_WIDTH
+        elif self.y > WINDOW_HEIGHT:
             self.y = 0
         elif self.y < 0:
-            self.y = display_height
+            self.y = WINDOW_HEIGHT
         self.life -= 1
